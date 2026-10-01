@@ -11,4 +11,9 @@ class Parser(ABC):
 
     @abstractmethod
     def parse(self, path: Path) -> ParsedDocument:
-        """Dosyayı okuyup ParsedDocument döndürür. İçeriği değiştirmez, atmaz"""
+        """
+        Dosyayı okuyup ParsedDocument döndürür.
+
+        Parser kaynak içeriği sessizce değiştirmemeli veya atmamalıdır.
+        """
+        raise NotImplementedError

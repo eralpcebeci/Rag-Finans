@@ -1,7 +1,9 @@
-from dataclasses import dataclass, field
 from enum import Enum
 
-BBox = tuple[float, float, float, float]  # (x0, y0, x1, y1), sayfa koordinatları
+from pydantic import BaseModel, Field, model_validator
+
+BBox = tuple[float, float, float, float]
+# (x0, y0, x1, y1) -> sayfa üzerindeki dikdörtgen bölgenin koordinatları
 
 
 class ElementType(str, Enum):
@@ -12,24 +14,55 @@ class ElementType(str, Enum):
     HEADER_FOOTER = "header_footer"
 
 
-@dataclass(frozen=True)
-class Element:
+class Element(BaseModel):
     """Bir sayfadaki tek bir içerik parçası."""
 
     type: ElementType
-    page: int  # 1'den başlar
+
+    page: int = Field(
+        ge=1,
+        description="Elementin bulunduğu sayfa numarası. 1'den başlar.",
+    )
+
     text: str
-    source: str  # bu parçayı hangi parser üretti
+
+    source: str = Field(
+        min_length=1,
+        description="Bu elementi üreten parser veya reader.",
+    )
+
     bbox: BBox | None = None
 
 
-@dataclass
-class ParsedDocument:
-    source_file: str
-    parser: str
-    page_count: int
-    elements: list[Element] = field(default_factory=list)
+class ParsedDocument(BaseModel):
+    """Bir parser'ın ürettiği normalize edilmiş doküman."""
+
+    source_file: str = Field(min_length=1)
+
+    parser: str = Field(min_length=1)
+
+    page_count: int = Field(ge=0)
+
+    elements: list[Element] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_element_pages(self) -> "ParsedDocument":
+        """
+        Elementlerin sayfa numaralarının dokümanın
+        toplam sayfa sayısını aşmadığını kontrol eder.
+        """
+
+        for element in self.elements:
+            if element.page > self.page_count:
+                raise ValueError(
+                    f"Element sayfası ({element.page}), "
+                    f"dokümanın toplam sayfa sayısından "
+                    f"({self.page_count}) büyük olamaz."
+                )
+
+        return self
 
     def page_text(self, page: int) -> str:
         """Bir sayfadaki tüm elementlerin metnini sırayla birleştirir."""
-        return "\n".join(e.text for e in self.elements if e.page == page)
+
+        return "\n".join(element.text for element in self.elements if element.page == page)
