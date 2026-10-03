@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\scripts",
+    "\\src",
+    "\\src\\rag",
+    "\\src\\rag\\modules",
+    "\\src\\rag\\modules\\ingestion",
+    "\\src\\rag\\modules\\ingestion\\infrastructure\\parsers",
+    "\\src\\rag\\shared",
+    "\\tests",
+    "\\tests\\ingestion"
+  ],
+  "SelectedNode": "\\scripts\\inspect_pdf.py",
+  "PreviewInSolutionExplorer": false
+}

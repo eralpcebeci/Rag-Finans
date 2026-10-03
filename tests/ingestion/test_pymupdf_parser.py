@@ -2,11 +2,15 @@ from pathlib import Path
 
 import pytest
 
-from rag.core.exceptions import ParsingError
-from rag.ingestion.models import ElementType, ParsedDocument
-from rag.ingestion.pymupdf_parser import PyMuPDFParser
+from rag.modules.ingestion.domain.enums import ElementType
+from rag.modules.ingestion.domain.models import ParsedDocument
+from rag.modules.ingestion.exceptions import ParsingError
+from rag.modules.ingestion.infrastructure.parsers.pymupdf_parser import (
+    PyMuPDFParser,
+)
 
-REPORT_PATH = Path("data/raw/akbank_2025_faaliyet.pdf")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+REPORT_PATH = PROJECT_ROOT / "data" / "raw" / "akbank_2025_faaliyet.pdf"
 
 
 def test_pymupdf_parser_parses_real_akbank_report() -> None:
@@ -32,7 +36,7 @@ def test_pymupdf_parser_parses_real_akbank_report() -> None:
     assert any(element.text.strip() for element in result.elements)
 
 
-def test_pymupdf_parser_rejects_missing_file(tmp_path) -> None:
+def test_pymupdf_parser_rejects_missing_file(tmp_path: Path) -> None:
     missing_pdf = tmp_path / "olmayan.pdf"
 
     with pytest.raises(ParsingError):

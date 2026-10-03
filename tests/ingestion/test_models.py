@@ -1,10 +1,10 @@
 import pytest
 from pydantic import ValidationError
 
-from rag.ingestion.models import (
+from rag.modules.ingestion.domain.enums import ElementType
+from rag.modules.ingestion.domain.models import (
     BBox,
     Element,
-    ElementType,
     ParsedDocument,
 )
 
@@ -39,7 +39,7 @@ def make_document(
         source_file=source_file,
         parser=parser,
         page_count=page_count,
-        elements=elements or [],
+        elements=[] if elements is None else elements,
     )
 
 

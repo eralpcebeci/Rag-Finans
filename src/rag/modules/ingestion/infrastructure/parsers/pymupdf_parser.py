@@ -2,14 +2,15 @@ from pathlib import Path
 
 import pymupdf
 
-from rag.core.exceptions import ParsingError
-from rag.ingestion.base import Parser
-from rag.ingestion.models import Element, ElementType, ParsedDocument
+from rag.modules.ingestion.domain.enums import ElementType
+from rag.modules.ingestion.domain.models import Element, ParsedDocument
+from rag.modules.ingestion.exceptions import ParsingError
+from rag.modules.ingestion.ports.parser import Parser
 
 
 class PyMuPDFParser(Parser):
     """
-    Baseline parser.
+    PyMuPDF tabanlı baseline parser.
 
     Her sayfanın metin katmanını tek bir TEXT elementi olarak çıkarır.
     """

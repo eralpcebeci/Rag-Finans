@@ -1,21 +1,15 @@
-from enum import Enum
+from typing import Self
 
 from pydantic import BaseModel, Field, model_validator
+
+from rag.modules.ingestion.domain.enums import ElementType
 
 BBox = tuple[float, float, float, float]
 # (x0, y0, x1, y1) -> sayfa üzerindeki dikdörtgen bölgenin koordinatları
 
 
-class ElementType(str, Enum):
-    TEXT = "text"
-    HEADING = "heading"
-    TABLE = "table"
-    FIGURE = "figure"
-    HEADER_FOOTER = "header_footer"
-
-
 class Element(BaseModel):
-    """Bir sayfadaki tek bir içerik parçası."""
+    """Bir sayfadaki tek bir normalize edilmiş içerik parçası."""
 
     type: ElementType
 
@@ -37,19 +31,28 @@ class Element(BaseModel):
 class ParsedDocument(BaseModel):
     """Bir parser'ın ürettiği normalize edilmiş doküman."""
 
-    source_file: str = Field(min_length=1)
+    source_file: str = Field(
+        min_length=1,
+        description="Kaynak dokümanın dosya adı.",
+    )
 
-    parser: str = Field(min_length=1)
+    parser: str = Field(
+        min_length=1,
+        description="Dokümanı üreten ana parser.",
+    )
 
-    page_count: int = Field(ge=0)
+    page_count: int = Field(
+        ge=0,
+        description="Dokümanın toplam sayfa sayısı.",
+    )
 
     elements: list[Element] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def validate_element_pages(self) -> "ParsedDocument":
+    def validate_element_pages(self) -> Self:
         """
-        Elementlerin sayfa numaralarının dokümanın
-        toplam sayfa sayısını aşmadığını kontrol eder.
+        Elementlerin sayfa numaralarının dokümanın toplam
+        sayfa sayısını aşmadığını doğrular.
         """
 
         for element in self.elements:
@@ -63,6 +66,6 @@ class ParsedDocument(BaseModel):
         return self
 
     def page_text(self, page: int) -> str:
-        """Bir sayfadaki tüm elementlerin metnini sırayla birleştirir."""
+        """Belirtilen sayfadaki element metinlerini mevcut sırayla birleştirir."""
 
         return "\n".join(element.text for element in self.elements if element.page == page)

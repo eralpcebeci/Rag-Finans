@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
 from rag.api.main import app
-from rag.core.config import Settings
+from rag.shared.config import Settings
 
 
 def test_health_returns_status() -> None:

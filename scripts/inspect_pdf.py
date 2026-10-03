@@ -1,34 +1,91 @@
-import sys
+import argparse
 from pathlib import Path
 
-from rag.ingestion.pymupdf_parser import PyMuPDFParser
+from rag.modules.ingestion.exceptions import ParsingError
+from rag.modules.ingestion.infrastructure.parsers.pymupdf_parser import (
+    PyMuPDFParser,
+)
 
-# 1. Argümanların alınması ve doğrulanması
-if len(sys.argv) < 2:
-    print("Kullanım: python scripts/inspect_pdf.py <pdf_yolu> [sayfa_no] [karakter_limiti]")
-    sys.exit(1)
+SHORT_PAGE_THRESHOLD = 50
+DEFAULT_PAGE = 1
+DEFAULT_CHARACTER_LIMIT = 1500
 
-pdf_path = Path(sys.argv[1])
-page_no = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-limit = int(sys.argv[3]) if len(sys.argv) > 3 else 1500
 
-# 2. PDF'in parse edilmesi
-doc = PyMuPDFParser().parse(pdf_path)
-print(f"Parser: {doc.parser} | sayfa: {doc.page_count} | element: {len(doc.elements)}")
+def parse_arguments() -> argparse.Namespace:
+    """Komut satırı argümanlarını okur."""
 
-# 3. Kısa sayfaların tespiti ve listelenmesi
-print("\nKısa sayfalar (sayfa: karakter | önizleme):")
-for page in range(1, doc.page_count + 1):
-    text = doc.page_text(page).strip()
-    if len(text) < 50:
-        preview = text.replace("\n", " ")[:40]
-        print(f"  {page}: {len(text)} karakter | {preview!r}")
+    parser = argparse.ArgumentParser(description="Bir PDF'i PyMuPDF baseline parser ile incele.")
 
-# 4. İstenen sayfanın güvenli şekilde ekrana basılması
-print(f"\n--- Sayfa {page_no} ---")
-if 1 <= page_no <= doc.page_count:
-    text = doc.page_text(page_no)
-    print(f"(toplam {len(text)} karakter, ilk {limit} gösteriliyor)")
-    print(text[:limit])
-else:
-    print(f"Hata: PDF'te {page_no}. sayfa bulunamadı. Toplam sayfa sayısı: {doc.page_count}")
+    parser.add_argument(
+        "pdf_path",
+        type=Path,
+        help="İncelenecek PDF dosyasının yolu.",
+    )
+
+    parser.add_argument(
+        "page",
+        type=int,
+        nargs="?",
+        default=DEFAULT_PAGE,
+        help=f"Gösterilecek sayfa numarası. Varsayılan: {DEFAULT_PAGE}",
+    )
+
+    parser.add_argument(
+        "limit",
+        type=int,
+        nargs="?",
+        default=DEFAULT_CHARACTER_LIMIT,
+        help=(
+            "Sayfadan ekrana basılacak maksimum karakter sayısı. "
+            f"Varsayılan: {DEFAULT_CHARACTER_LIMIT}"
+        ),
+    )
+
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_arguments()
+
+    try:
+        document = PyMuPDFParser().parse(args.pdf_path)
+    except ParsingError as exc:
+        print(f"Parsing hatası: {exc}")
+        return 1
+
+    print(
+        f"Parser: {document.parser} | "
+        f"sayfa: {document.page_count} | "
+        f"element: {len(document.elements)}"
+    )
+
+    print("\nKısa sayfalar (sayfa: karakter | önizleme):")
+
+    for page_number in range(1, document.page_count + 1):
+        text = document.page_text(page_number).strip()
+
+        if len(text) < SHORT_PAGE_THRESHOLD:
+            preview = text.replace("\n", " ")[:40]
+
+            print(f"  {page_number}: " f"{len(text)} karakter | " f"{preview!r}")
+
+    print(f"\n--- Sayfa {args.page} ---")
+
+    if not 1 <= args.page <= document.page_count:
+        print(
+            f"Hata: PDF'te {args.page}. sayfa bulunamadı. "
+            f"Toplam sayfa sayısı: {document.page_count}"
+        )
+        return 1
+
+    text = document.page_text(args.page)
+
+    print(f"(toplam {len(text)} karakter, " f"ilk {args.limit} gösteriliyor)")
+
+    print(text[: args.limit])
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
