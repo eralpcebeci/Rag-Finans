@@ -1,0 +1,181 @@
+{
+  "cases": [
+    {
+      "id": "P01",
+      "question": "Akbank'ın 31 Aralık 2025 itibarıyla hisse başına kârı kaç TL'dir?",
+      "reference_answer": "0,11009 TL",
+      "answer_type": "numeric",
+      "reasoning_type": "direct",
+      "category": "earnings_per_share",
+      "evidence": [
+        {
+          "source_file": "akbank_2025_faaliyet.pdf",
+          "page": 379,
+          "text": "Hisse Başına Kâr (Tam TL tutarı ile gösterilmiştir). Cari Dönem - 31 Aralık 2025: 0,11009. Önceki Dönem - 31 Aralık 2024: 0,08147.",
+          "role": "primary"
+        }
+      ],
+      "status": "verified"
+    },
+    {
+  "id": "P02",
+  "question": "Akbank'ın 2025 yıl sonu itibarıyla konsolide toplam aktifleri kaç milyon TL'dir?",
+  "reference_answer": "3.558.950 milyon TL",
+  "answer_type": "numeric",
+  "reasoning_type": "direct",
+  "category": "total_assets",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 337,
+      "text": "Beş Yıllık Özet Konsolide Finansal Bilgiler tablosunda Toplam Aktifler, 2025: 3.558.950 milyon TL.",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P03",
+  "question": "Akbank, 2025 yılındaki başarılı performansını daha ileri taşırken odağına hangi stratejiyi yerleştirmiştir?",
+  "reference_answer": "Sürdürülebilirlik stratejisi.",
+  "answer_type": "factoid",
+  "reasoning_type": "direct",
+  "category": "strategy",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 117,
+      "text": "Bankamızın hedefi, bankacılığın her alanında tüm paydaşlarına sürdürülebilir ve yüksek değer yaratmaktır. 2025 yılındaki başarılı performansımızı, odağında sürdürülebilirlik stratejisiyle daha da ileri taşıyarak, verimlilik içerisinde büyümek için önümüzdeki dönemde de çalışmalarımız ve yatırımlarımız devam edecektir.",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P04",
+  "question": "Akbank'ın konsolide toplam aktifleri 2024 yıl sonundan 2025 yıl sonuna yaklaşık yüzde kaç artmıştır?",
+  "reference_answer": "Yaklaşık %34,14 artmıştır.",
+  "answer_type": "numeric",
+  "reasoning_type": "calculation",
+  "category": "total_assets_growth",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 337,
+      "text": "Beş Yıllık Özet Konsolide Finansal Bilgiler | Birim: milyon TL | Toplam Aktifler | 2024: 2.653.105 | 2025: 3.558.950",
+      "role": "calculation_input"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P05",
+  "question": "Akbank'ın konsolide olmayan sermaye yeterliliği oranı 31 Aralık 2024'ten 31 Aralık 2025'e kaç yüzde puan değişmiştir?",
+  "reference_answer": "1,16 yüzde puan azalmıştır.",
+  "answer_type": "numeric",
+  "reasoning_type": "calculation",
+  "category": "capital_adequacy_change",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 382,
+      "text": "Sermaye Yeterliliği Oranı (%) | 31 Aralık 2025: 19,98% | 31 Aralık 2024: 21,14%",
+      "role": "calculation_input"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P06",
+  "question": "Akbank'ın konsolide olmayan finansal tablolarına göre yurt içi takipteki kredileri 2024 yıl sonuna kıyasla 2025 yıl sonunda nasıl değişmiştir?",
+  "reference_answer": "Yurt içi takipteki krediler artmıştır; 31 Aralık 2024'te 37.357.007 TL iken 31 Aralık 2025'te 65.280.018 TL'ye yükselmiştir.",
+  "answer_type": "descriptive",
+  "reasoning_type": "comparison",
+  "category": "non_performing_loans",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 423,
+      "text": "Yurtiçi | Takipteki Krediler | Cari Dönem 31.12.2025: 65.280.018 | Önceki Dönem 31.12.2024: 37.357.007",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P07",
+  "question": "AKLease, sürdürülebilirlik stratejisi kapsamında 2030 yılına kadar portföyünde nasıl bir dönüşüm hedeflemektedir?",
+  "reference_answer": "AKLease, 2030 yılına kadar portföyünün önemli bir bölümünü yeşil finansmana uygun yatırımlardan oluşturmayı hedeflemektedir.",
+  "answer_type": "descriptive",
+  "reasoning_type": "direct",
+  "category": "sustainability_strategy",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 75,
+      "text": "Sürdürülebilirlik stratejisini tüm paydaşlarının katılımıyla şekillendiren şirket, 2030'a kadar portföyünün önemli bir bölümünü yeşil finansmana uygun yatırımlarla oluşturmayı hedeflemektedir.",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P08",
+  "question": "Kaldıraç oranı kamuya açıklama şablonuna göre 31 Aralık 2025 tarihindeki kaldıraç oranı değeri kaçtır?",
+  "reference_answer": "5,46",
+  "answer_type": "numeric",
+  "reasoning_type": "direct",
+  "category": "leverage_ratio",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 542,
+      "text": "Kaldıraç oranı kamuya açıklama şablonu | Kaldıraç oranı | Cari Dönem 31 Aralık 2025: 5,46 | Önceki Dönem 31 Aralık 2024: 6,56",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P09",
+  "question": "Akbank'ın BDDK düzenlemeleri dahil açıklanan 2025 sermaye yeterlilik oranı, aynı dönemde Türk bankacılık sektörünün sermaye yeterlilik oranına göre nasıl konumlanmıştır?",
+  "reference_answer": "Akbank'ın BDDK düzenlemeleri dahil açıklanan sermaye yeterlilik oranı %19,0 ile bankacılık sektörünün %19,7 olan sermaye yeterlilik oranının altında kalmıştır.",
+  "answer_type": "descriptive",
+  "reasoning_type": "comparison",
+  "category": "capital_adequacy_comparison",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 39,
+      "text": "Sermaye yeterlilik oranı %19,0. BDDK düzenlemeleri dahil paylaşılmış olup, menkullerin gerçeğe uygun değerleme farkları ve risk ağırlıklı kalemler hesaplamasında 28.06.2024 döviz kuru dikkate alınmıştır. Düzenlemeler hariç sermaye yeterlilik oranı ise %16,8'dir.",
+      "role": "primary"
+    },
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 28,
+      "text": "Bankacılık sektöründe aralık ayı itibarıyla sermaye yeterlilik oranı (SYR) %19,7 ile yasal sınırın üstünde kalmaya devam etti (çekirdek SYR %15,1).",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+},
+{
+  "id": "P10",
+  "question": "Akbank, iklim etkisi yüksek ve yoğun sera gazı emisyonuna neden olan sektörlerdeki müşterileri değerlendirirken hangi unsurları dikkate almaktadır?",
+  "reference_answer": "Akbank; üst düzey yönetimin iklim değişikliği konusundaki sorumluluğunu, müşterilerin iklim değişikliğiyle ilgili taahhütlerini, sera gazı emisyonlarını azaltmaya yönelik kısa, orta ve uzun vadeli stratejik hedeflerini, hedef raporlarıyla birlikte resmi veya uluslararası kuruluşlara yönelik raporlamalarını ve son üç yıla ait emisyon verileri ile emisyon kontrol mekanizmalarının varlığını dikkate almaktadır.",
+  "answer_type": "descriptive",
+  "reasoning_type": "direct",
+  "category": "climate_risk_assessment",
+  "evidence": [
+    {
+      "source_file": "akbank_2025_faaliyet.pdf",
+      "page": 217,
+      "text": "Bu doğrultuda iklim değişikliğine etkisi yüksek ve yoğun sera gazı emisyonuna neden olan sektörlerde faaliyet gösteren ve ÇSED Ekibi tarafından değerlendirilen müşterilerimiz için aşağıdaki hususları dikkate alıyoruz: Üst düzey yönetimin iklim değişikliği konusundaki sorumluluğunu, iklim değişikliğiyle ilgili taahhütlerini, sera gazı emisyonlarını azaltma konusundaki kısa, orta ve uzun vadeli stratejik hedeflerini, hedef raporları ile birlikte resmi / uluslararası kurum ve kuruluşlara yönelik raporlamalarını, son üç yıla ait emisyon verilerini ve çeşitli emisyon kontrol mekanizmalarının varlığını sorguluyor, müşteri ve projelerin emisyon miktarını izliyoruz.",
+      "role": "primary"
+    }
+  ],
+  "status": "verified"
+}
+    
+  ]
+}
