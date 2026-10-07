@@ -7,6 +7,7 @@ from rag.modules.evaluation.domain.enums import (
     ReasoningType,
 )
 from rag.modules.evaluation.domain.models import (
+    CapabilityTag,
     EvalCase,
     EvalDataSet,
     EvidenceItem,
@@ -190,3 +191,66 @@ def test_eval_dataset_accepts_unique_case_ids() -> None:
 def test_eval_dataset_rejects_empty_cases() -> None:
     with pytest.raises(ValidationError):
         EvalDataSet(cases=[])
+
+
+def test_eval_case_defaults_to_empty_tags() -> None:
+    evidence = EvidenceItem(
+        source_file="akbank_2025_faaliyet.pdf",
+        page=100,
+        text="örnek kaynak metin",
+        role=EvidenceRole.PRIMARY,
+    )
+
+    eval_case = EvalCase(
+        id="akbank-2025-tag-001",
+        question="Örnek Soru",
+        reference_answer="Örnek Cevap",
+        answer_type=AnswerType.FACTOID,
+        reasoning_type=ReasoningType.DIRECT,
+        category="test",
+        evidence=[evidence],
+    )
+    assert eval_case.tags == []
+
+
+def test_eval_case_accepts_valid_capability_tag() -> None:
+    evidence = EvidenceItem(
+        source_file="akbank_2025_faaliyet.pdf",
+        page=100,
+        text="örnek kaynak metin",
+        role=EvidenceRole.PRIMARY,
+    )
+
+    eval_case = EvalCase(
+        id="akbank-2025-tags-002",
+        question="Tablodaki Değer Nedir",
+        reference_answer="5,46",
+        answer_type=AnswerType.NUMERIC,
+        reasoning_type=ReasoningType.DIRECT,
+        category="test",
+        tags=[CapabilityTag.TABLE_HEAVY],
+        evidence=[evidence],
+    )
+
+    assert eval_case.tags == [CapabilityTag.TABLE_HEAVY]
+
+
+def test_eval_case_rejects_unkown_capability_tag() -> None:
+    evidence = EvidenceItem(
+        source_file="akbank_2025_faaliyet.pdf",
+        page=130,
+        text="Örnek Kaynak Metin",
+        role=EvidenceRole.PRIMARY,
+    )
+
+    with pytest.raises(ValidationError):
+        EvalCase(
+            id="akbank-2025-tags-003",
+            question="örnek soru",
+            reference_answer="örnek cevap",
+            answer_type=AnswerType.FACTOID,
+            reasoning_type=ReasoningType.DIRECT,
+            category="test",
+            tags=["table_heawy"],
+            evidence=[evidence],
+        )
