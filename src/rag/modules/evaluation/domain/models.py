@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from rag.modules.evaluation.domain.enums import (
     AnswerType,
+    CapabilityTag,
     EvalCaseStatus,
     EvidenceRole,
     ReasoningType,
@@ -61,6 +62,8 @@ class EvalCase(BaseModel):
         min_length=1,
         description="Sorunun finansal veya dokümansal kategorisi.",
     )
+
+    tags: list[CapabilityTag] = Field(default_factory=list)
 
     evidence: list[EvidenceItem] = Field(
         min_length=1,

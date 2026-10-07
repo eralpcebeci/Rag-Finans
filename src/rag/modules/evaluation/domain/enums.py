@@ -23,3 +23,8 @@ class EvalCaseStatus(str, Enum):
     GENERATED = "generated"
     VERIFIED = "verified"
     REJECTED = "rejected"
+
+
+class CapabilityTag(str, Enum):
+    TABLE_HEAVY = "table_heavy"
+    SEMANTIC_PARAPHRASE = "semantic_paraphrase"

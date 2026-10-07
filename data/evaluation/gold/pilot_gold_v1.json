@@ -126,6 +126,7 @@
   "answer_type": "numeric",
   "reasoning_type": "direct",
   "category": "leverage_ratio",
+  "tags":["table_heavy"],
   "evidence": [
     {
       "source_file": "akbank_2025_faaliyet.pdf",
@@ -166,6 +167,7 @@
   "answer_type": "descriptive",
   "reasoning_type": "direct",
   "category": "climate_risk_assessment",
+  "tags": ["semantic_paraphrase"],
   "evidence": [
     {
       "source_file": "akbank_2025_faaliyet.pdf",
